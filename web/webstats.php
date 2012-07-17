@@ -13,7 +13,6 @@
       body {
         padding-top: 60px;
         padding-bottom: 40px;
-		background-color:#A2CDFA;
       }
     </style>
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
@@ -58,72 +57,44 @@
 
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="hero-unit">
-        <h1>Hello, visitor!</h1>
-        <p>Welcom to the site! Here you can learn about the plugin, watch tutorials, and check WebStats. If you like it, tell your friends!</p>
+        <h1>Hello, world!</h1>
+        <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+        <p><a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
       </div>
 
-      <!-- Example row of columns -->
-      <div class="row">
-        <div class="span7">
-		  <div class="well">
-            <h2>What is MyHungerGames?</h2>
-  		  	<p>MyHungerGames is a bukkit plugin that tries to emulate the HungerGames from the books and movie as well as a TON of extra features.
-  		  	You can control things like what items goes in a chest, or 
-  		  	what items players can sponsor. But even the little things are confiurable: whether to allow players to join during a game or making players clear inventory before joining. 
-  		  	The goal of this project was not only to create Hunger games, 
-  		  	but allow server owners and admins tweak them to their exact needs. 
-  		  	That is why almost every part of this plugin can be customized to fit your exact needs.
-  		  	</p>
-		  </div>
-        </div>
-        <div class="span5">
-          <img src="images/image1.png" />
-        </div>
-      </div>
-	  </br>
-	  </br>
-      <!-- Example row of columns -->
-      <div class="row">
-	    <div class="span4">
-          <img src="images/image2.png" />
-        </div>
-        <div class="span8">
-		  <div class="well">
-			 <h2>Features:</h2>
-		  	 <p> TODO </p>
-		  </div>
-        </div>
-      </div>
-	  </br>
-	  </br>
-	  
-	  <section id="contact">
-	    <div class="page-header">
-  	      <h1>Contact Us</h1>
-	    </div>
-	  
-        <div class="row">
-          <div class="span12">
-		    <div class="well">
-		  	  <p>
-			  <h3>This plugin has been made by, contributed to, and tester by the following: </br></h3>
-			  kitskub: Author and Manager </br>
-			  Randude14: Creator and Former Author </br>
-			  Bjornke: Tester and Author </br>
-			  Gramoobi: Tester </br>
-			  Gyldenglad: Tester </br>
-			  zendrex: Tester </br>
-			  InsidiousDesign: Webserver host and design </br>
-			  
-			  <h3>You can contact us through: </br></h3>
-			  <a href="http://dev.bukkit.org/server-mods/myhungergames/">BukkitDev</a> </br>
-			  <a href="https://github.com/kitskub/MyHungerGames">Github</a> </br>
-  		  	  </p>
-		    </div>
-          </div>
-        </div>
-	  </section>
-	  <hr>
+	  <table class="table table-striped">
+  	    <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Last Login</th>
+            <th>Total Games</th>
+            <th>Wins</th>
+            <th>Kills</th>
+            <th>Deaths</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
+            require("dbproxy.php");
+            $count = 1;
+            while (list($name, $login, $games, $wins, $allKills, $allDeaths) = mysql_fetch_row(mysqli_query("SELCT * FROM players ORDER BY totalGames ASC"))) {
+              echo "<tr>\n";
+              echo "<td>" + $count + "</td>\n";
+              echo "<td> + " + $name + "</td>\n";
+              echo "<td> + " + $login + "</td>\n";
+              echo "<td> + " + $games + "</td>\n";
+              echo "<td> + " + $wins + "</td>\n";
+              echo "<td> + " + $allKills + "</td>\n";
+              echo "<td> + " + $allDeaths + "</td>\n";
+              echo "</tr>\n";
+              $count = $count + 1;
+            }
+          ?>
+        </tbody>
+      </table>
+      <hr>
+
       <footer>
         <p>&copy; MyHungerGames</p>
       </footer>

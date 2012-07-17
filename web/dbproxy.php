@@ -1,7 +1,7 @@
 <?php
 require 'config.php';
-$con = mysql_connect($url,$dbUser,$dbPass);
-$db = mysql_select_db($dbName, $con);
+$con = mysqli_connect($url,$dbUser,$dbPass);
+mysqli_select_db($dbName, $con);
 $authId = $_POST["authID"];
 $requestType = $_POST["requestType"];
 if ($requestType == "update") {
@@ -11,7 +11,7 @@ if ($requestType == "update") {
 	$deaths = $_POST["deaths"];
 	$kills = $_POST["kills"];
 	setupDB();
-	mysql_query("INSERT INTO players
+	mysqli_query("INSERT INTO players
 		(name, lastLogin, totalGames, wins, kills, deaths) 
 		VALUES 
 		('$playerName', '$login', '1', '$wins', '$kills', '$deaths')
@@ -35,8 +35,8 @@ function setupDB() {
 		kills SMALLINT(),
 		deaths SMALLINT()
 		)";
-	mysql_query($sql, $GLOBALS["con"]);
+	mysqli_query($sql, $GLOBALS["con"]);
 }
 
-mysql_close($con);
+mysqli_close($con);
 ?>
