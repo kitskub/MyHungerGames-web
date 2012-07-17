@@ -53,15 +53,12 @@
       </div>
     </div>
 
+	<div class="hero-unit">
+      <h1>WebStats!</h1>
+      <p>Do you want to know where you stand among all the players of MyHungerGames? Well, you're in the right spot!</p>
+    </div>
+	  
     <div class="container">
-
-      <!-- Main hero unit for a primary marketing message or call to action -->
-      <div class="hero-unit">
-        <h1>Hello, world!</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
-      </div>
-
 	  <table class="table table-striped">
   	    <thead>
           <tr>
@@ -77,16 +74,22 @@
         <tbody>
           <?php
             require("dbproxy.php");
+	    $mysql = newConnection();
+	    setupDB($mysql);
+	    if (!$mysql->ping()) {
+		    die("No connection");
+	    }
             $count = 1;
-            while (list($name, $login, $games, $wins, $allKills, $allDeaths) = mysql_fetch_row(mysqli_query("SELCT * FROM players ORDER BY totalGames ASC"))) {
+	    $result = $mysql->query("SELECT * FROM players ORDER BY totalGames ASC;");
+            while ($row = mysqli_fetch_array($result)) {
               echo "<tr>\n";
-              echo "<td>" + $count + "</td>\n";
-              echo "<td> + " + $name + "</td>\n";
-              echo "<td> + " + $login + "</td>\n";
-              echo "<td> + " + $games + "</td>\n";
-              echo "<td> + " + $wins + "</td>\n";
-              echo "<td> + " + $allKills + "</td>\n";
-              echo "<td> + " + $allDeaths + "</td>\n";
+              echo "<td>" . $count . "</td>\n";
+              echo "<td>" . $row['playerName'] . "</td>\n";
+              echo "<td>" . $row['lastLogin'] . "</td>\n";
+              echo "<td>" . $row['totalGames'] . "</td>\n";
+              echo "<td>" . $row['wins'] . "</td>\n";
+              echo "<td>" . $row['kills'] . "</td>\n";
+              echo "<td>" . $row['deaths'] . "</td>\n";
               echo "</tr>\n";
               $count = $count + 1;
             }
