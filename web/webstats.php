@@ -43,9 +43,9 @@
           <a class="brand" href="#">MyHungerGames</a>
           <div class="nav-collapse">
             <ul class="nav">
-              <li class="active"><a href="index.html"><i class="icon-home icon-white"></i>Home</a></li>
+              <li><a href="index.html"><i class="icon-home icon-white"></i>Home</a></li>
               <li><a href="tutorials.html">Tutorials</a></li>
-              <li><a href="webstats.php">WebStats</a></li>
+              <li class="active"><a href="webstats.php">WebStats</a></li>
               <li><a href="index.html#contact">Contact</a></li>
             </ul>
           </div><!--/.nav-collapse -->
