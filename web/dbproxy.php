@@ -22,15 +22,14 @@ function update() {
 	$deaths = $_POST['deaths'];
 	$kills = $_POST['kills'];
 	$GLOBALS['mysql']->query('INSERT INTO players
-		(name, lastLogin, totalGames, wins, kills, deaths) 
-		VALUES 
-		(' + $playerName + ', ' + $login + ', 1, ' + $wins + ', ' + $kills + ', ' + $deaths + ')
+		(playerName, lastLogin, totalGames, wins, kills, deaths) VALUES 
+		(\'' . $playerName . '\', \'' . $login . '\', 1, \'' . $wins . '\', \'' . $kills . '\', \'' . $deaths . '\')
 		ON DUPLICATE KEY UPDATE 
-		lastLogin =  ' + $login + ' AND 
+		lastLogin =  ' . $login . ' AND 
 		totalGames = totalGames + 1 AND 
-		wins = wins + ' + $wins + ' AND
-		kills = kills + ' + $kills + ' AND
-		deaths = deaths + ' + $deaths
+		wins = wins + ' . $wins . ' AND
+		kills = kills + ' . $kills . ' AND
+		deaths = deaths + ' . $deaths
 		);
 }
 function setupDB($mysql) {

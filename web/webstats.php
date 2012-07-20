@@ -69,18 +69,27 @@
             <th>Wins</th>
             <th>Kills</th>
             <th>Deaths</th>
+			<th>Kills/Deaths</th>
+			<th>Percent Win</th>
           </tr>
         </thead>
         <tbody>
           <?php
             require("dbproxy.php");
-	    $mysql = newConnection();
-	    setupDB($mysql);
-	    if (!$mysql->ping()) {
-		    die("No connection");
-	    }
+			$mysql = newConnection();
+			setupDB($mysql);
+			if (!$mysql->ping()) {
+			  die();
+			}
+			if (isset($_GET['page'])) {
+			  $page = $_GET['page'];
+			}
+			else {
+		      $page = 0;
+			}
             $count = 1;
-	    $result = $mysql->query("SELECT * FROM players ORDER BY totalGames ASC;");
+			$query = "SELECT * FROM players ORDER BY wins DESC, totalGames DESC, playerName ASC LIMIT " . $page * 50 . ", 50;";
+			$result = $mysql->query($query);
             while ($row = mysqli_fetch_array($result)) {
               echo "<tr>\n";
               echo "<td>" . $count . "</td>\n";
@@ -90,6 +99,8 @@
               echo "<td>" . $row['wins'] . "</td>\n";
               echo "<td>" . $row['kills'] . "</td>\n";
               echo "<td>" . $row['deaths'] . "</td>\n";
+              echo "<td>" . $row['kills']/$row['deaths'] . "</td>\n";
+              echo "<td>" . round($row['wins']/$row['totalGames'] * 100, 2) . "%</td>\n";
               echo "</tr>\n";
               $count = $count + 1;
             }
