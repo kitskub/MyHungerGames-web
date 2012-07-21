@@ -8,7 +8,8 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="css/DT_bootstrap.css">
     <style type="text/css">
       body {
         padding-top: 60px;
@@ -28,6 +29,11 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png">
+
+	<script src="js/jquery-1.7.2.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="DataTables/media/js/jquery.dataTables.min.js"></script>
+	<script src="js/DT_bootstrap.js"></script>
   </head>
 
   <body>
@@ -59,13 +65,14 @@
     </div>
 	  
     <div class="container">
-	  <table class="table table-striped">
+	  <table class="table table-striped " id="playersTable">
   	    <thead>
           <tr>
             <th>Rank</th>
             <th>Name</th>
             <th>Last Login</th>
             <th>Total Games</th>
+			<th>Total Time</th>
             <th>Wins</th>
             <th>Kills</th>
             <th>Deaths</th>
@@ -88,7 +95,7 @@
 		      $page = 0;
 			}
             $count = 1;
-			$query = "SELECT * FROM players ORDER BY wins DESC, totalGames DESC, playerName ASC LIMIT " . $page * 50 . ", 50;";
+			$query = "SELECT *, wins/totalGames AS percent FROM players ORDER BY percent DESC, wins DESC, totalGames DESC, playerName ASC;";
 			$result = $mysql->query($query);
             while ($row = mysqli_fetch_array($result)) {
               echo "<tr>\n";
@@ -96,11 +103,17 @@
               echo "<td>" . $row['playerName'] . "</td>\n";
               echo "<td>" . $row['lastLogin'] . "</td>\n";
               echo "<td>" . $row['totalGames'] . "</td>\n";
+              echo "<td>" . $row['totalTime'] . "</td>\n";
               echo "<td>" . $row['wins'] . "</td>\n";
               echo "<td>" . $row['kills'] . "</td>\n";
               echo "<td>" . $row['deaths'] . "</td>\n";
-              echo "<td>" . $row['kills']/$row['deaths'] . "</td>\n";
-              echo "<td>" . round($row['wins']/$row['totalGames'] * 100, 2) . "%</td>\n";
+			  if ($row['deaths'] == 0) {
+			    echo "<td>N/A</td>\n";
+			  }
+			  else {
+			    echo "<td>" . $row['kills']/$row['deaths'] . "</td>\n";
+			  }
+              echo "<td>" . round($row['percent'] * 100, 2) . "</td>\n";
               echo "</tr>\n";
               $count = $count + 1;
             }
@@ -114,12 +127,6 @@
       </footer>
 
     </div> <!-- /container -->
-
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="js/jquery-1.7.2.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
 
   </body>
 </html>
