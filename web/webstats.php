@@ -14,6 +14,7 @@
       body {
         padding-top: 60px;
         padding-bottom: 40px;
+		background-color:#A2CDFA;
       }
     </style>
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
@@ -46,7 +47,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">MyHungerGames</a>
+          <a class="brand" href="#"><img src="images/logo/logo-thumbnail.png"></img></a>
           <div class="nav-collapse">
             <ul class="nav">
               <li><a href="index.html"><i class="icon-home icon-white"></i>Home</a></li>
