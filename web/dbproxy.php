@@ -11,6 +11,7 @@ if (isset($_POST['requestType'])) {
 	   updateGames();
    }
    if ($mysql->errno) {
+	error_log("Create failed with error code " . $mysql->connect_errno . ": " . $mysql->connect_error . "\n");
 	die("Create failed with error code " . $mysql->connect_errno . ": " . $mysql->connect_error . "\n");
    }
    if ($requestType == 'requestPlayer') {
@@ -21,6 +22,7 @@ if (isset($_POST['requestType'])) {
 		   echo "{" . $row['lastLogin'] . "," . $row['totalGames'] . "," . $row['totalTime'] . "," . $row['wins'] . "," . $row['kills'] . "," . $row['deaths'] . PHP_EOL;
 	   }
 	   if ($mysql->errno) {
+		error_log("Create failed with error code " . $mysql->connect_errno . ": " . $mysql->connect_error . "\n");		   exit();
 		die("Create failed with error code " . $mysql->connect_errno . ": " . $mysql->connect_error . "\n");		   exit();
            }
 	   $query = "SELECT * FROM games WHERE players LIKE {" . $playerName . "};";
@@ -29,6 +31,7 @@ if (isset($_POST['requestType'])) {
 		   echo "{" . $row['startTime'] . "," . $row['totalDuration'] . "," . $row['winner'] . "," . $row['wins'] . "," . $row['totalPlayers'] . "," . $row['players'] . "," . $row['sponsors'] . PHP_EOL;
 	   }
 	   if ($mysql->errno) {
+		error_log("Create failed with error code " . $mysql->connect_errno . ": " . $mysql->connect_error . "\n");		   exit();
 		die("Create failed with error code " . $mysql->connect_errno . ": " . $mysql->connect_error . "\n");		   exit();
            }
    }
@@ -87,6 +90,7 @@ function setupDB($mysql) {
 		);';
 	$mysql->query($sql);
 	if ($mysql->errno) {
+		error_log("Create failed with error code " . $mysql->connect_errno . ": " . $mysql->connect_error . "\n");
 		die("Create failed with error code " . $mysql->connect_errno . ": " . $mysql->connect_error . "\n");
 	}
 	$sql = 'CREATE TABLE IF NOT EXISTS games (
@@ -99,6 +103,7 @@ function setupDB($mysql) {
 		);';
 	$mysql->query($sql);
 	if ($mysql->errno) {
+		error_log("Create failed with error code " . $mysql->connect_errno . ": " . $mysql->connect_error . "\n");
 		die("Create failed with error code " . $mysql->connect_errno . ": " . $mysql->connect_error . "\n");
 	}
 }
