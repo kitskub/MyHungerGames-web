@@ -87,37 +87,37 @@
 			$mysql = newConnection();
 			setupDB($mysql);
 			if (!$mysql->ping()) {
-			  die();
+				die();
 			}
 			if (isset($_GET['page'])) {
-			  $page = $_GET['page'];
+				$page = $_GET['page'];
 			}
 			else {
-		      $page = 0;
+				$page = 0;
 			}
-            $count = 1;
+			$count = 1;
 			$query = "SELECT *, wins/totalGames AS percent FROM players ORDER BY percent DESC, wins DESC, totalGames DESC, playerName ASC;";
 			$result = $mysql->query($query);
-            while ($row = mysqli_fetch_array($result)) {
-              echo "<tr>\n";
-              echo "<td>" . $count . "</td>\n";
-              echo "<td>" . $row['playerName'] . "</td>\n";
-              echo "<td>" . $row['lastLogin'] . "</td>\n";
-              echo "<td>" . $row['totalGames'] . "</td>\n";
-              echo "<td>" . $row['totalTime'] . "</td>\n";
-              echo "<td>" . $row['wins'] . "</td>\n";
-              echo "<td>" . $row['kills'] . "</td>\n";
-              echo "<td>" . $row['deaths'] . "</td>\n";
-			  if ($row['deaths'] == 0) {
-			    echo "<td>N/A</td>\n";
-			  }
-			  else {
-			    echo "<td>" . $row['kills']/$row['deaths'] . "</td>\n";
-			  }
-              echo "<td>" . round($row['percent'] * 100, 2) . "</td>\n";
-              echo "</tr>\n";
-              $count = $count + 1;
-            }
+			while ($row = mysqli_fetch_array($result)) {
+				echo "<tr>\n";
+				echo "<td>" . $count . "</td>\n";
+				echo "<td>" . $row['playerName'] . "</td>\n";
+				echo "<td>" . $row['lastLogin'] . "</td>\n";
+				echo "<td>" . $row['totalGames'] . "</td>\n";
+				echo "<td>" . $row['totalTime'] . "</td>\n";
+				echo "<td>" . $row['wins'] . "</td>\n";
+				echo "<td>" . $row['kills'] . "</td>\n";
+				echo "<td>" . $row['deaths'] . "</td>\n";
+				if ($row['deaths'] == 0) {
+					echo "<td>N/A</td>\n";
+				}
+				else {
+					echo "<td>" . $row['kills']/$row['deaths'] . "</td>\n";
+				}
+				echo "<td>" . round($row['percent'] * 100, 2) . "</td>\n";
+				echo "</tr>\n";
+				$count = $count + 1;
+			}
           ?>
         </tbody>
       </table>
