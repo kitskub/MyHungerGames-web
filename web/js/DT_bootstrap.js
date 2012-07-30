@@ -94,8 +94,24 @@ $.extend( $.fn.dataTableExt.oPagination, {
 	}
 } );
 
-/* Table initialisation */
+/* Table initialisations */
 $(document).ready(function() {
+	$('#games').dataTable( {
+		"sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>",
+		"sPaginationType": "bootstrap",
+		"aoColumns": [
+                { "sType": "date-euro"},
+                null,
+                null,
+		null,
+                null,
+		null
+		],
+		"aaSorting" : [[0, 'desc']],
+		"oLanguage": {
+			"sLengthMenu": "_MENU_ records per page"
+		}
+	} );
 	$('#playersTable').dataTable( {
 		"sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>",
 		"sPaginationType": "bootstrap",
