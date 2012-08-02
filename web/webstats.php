@@ -66,9 +66,9 @@
 	</div>
 	<?php
 		require("dbproxy.php");
-		$mysql = newConnection();
-		setupDB($mysql);
-		if (!$mysql->ping()) {
+		$mysqli = newConnection();
+		setupDB($mysqli);
+		if (!$mysqli->ping()) {
 			error_log("Can't connect to database.");
 			die();
 		}
@@ -96,7 +96,7 @@
 					<?php
 						$count = 1;
 						$query = "SELECT * FROM games ORDER BY startTime ASC;";
-						$result = $mysql->query($query);
+						$result = $mysqli->query($query);
 						while ($row = mysqli_fetch_array($result)) {
 							echo "<tr>\n";
 							echo "<td>" . $row['startTime'] . "</td>\n";
@@ -134,7 +134,7 @@
 					<?php
 						$count = 1;
 						$query = "SELECT *, wins/totalGames AS percent FROM players ORDER BY percent DESC, wins DESC, totalGames DESC, playerName ASC;";
-						$result = $mysql->query($query);
+						$result = $mysqli->query($query);
 						while ($row = mysqli_fetch_array($result)) {
 							echo "<tr>\n";
 							echo "<td>" . $count . "</td>\n";

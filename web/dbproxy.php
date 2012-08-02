@@ -1,34 +1,46 @@
 <?php
 require('config.php');
-$mysql = newConnection();
-setupDB($mysql);
+$mysqli = newConnection();
+setupDB($mysqli);
 if (isset($_REQUEST['requestType'])) {
    $requestType = $_REQUEST['requestType'];
    if ($requestType == 'updatePlayers') {
 	   updatePlayers();
    }
-   if ($mysql->errno) {
-	error_log("updatePlayers failed with error code " . $mysql->connect_errno . ": " . $mysql->connect_error . "\n");
-	die("updatePlayers failed with error code " . $mysql->connect_errno . ": " . $mysql->connect_error . "\n");
+   if ($mysqli->errno) {
+	error_log("updatePlayers failed with error code " . $mysqli->connect_errno . ": " . $mysqli->connect_error . "\n");
+	die("updatePlayers failed with error code " . $mysqli->connect_errno . ": " . $mysqli->connect_error . "\n");
    }
    if ($requestType == 'updateGames') {
 	   updateGames();
    }
-   if ($mysql->errno) {
-	error_log("updateGames failed with error code " . $mysql->connect_errno . ": " . $mysql->connect_error . "\n");
-	die("updateGames failed with error code " . $mysql->connect_errno . ": " . $mysql->connect_error . "\n");
+   if ($mysqli->errno) {
+	error_log("updateGames failed with error code " . $mysqli->connect_errno . ": " . $mysqli->connect_error . "\n");
+	die("updateGames failed with error code " . $mysqli->connect_errno . ": " . $mysqli->connect_error . "\n");
    }
    if ($requestType == 'requestPlayer') {
 	   echo "<?xml version=\"1.0\"?>" . PHP_EOL;
 	   $playerName = $_REQUEST['playerName'];
-	   $query = "SELECT * FROM players WHERE playerName='" . $playerName . "';";
-	   $result = $mysql->query($query);
-	   if ($mysql->errno) {
-		error_log("requestPlayer failed with error code " . $mysql->connect_errno . ": " . $mysql->connect_error . "\n");
-		die("requestPlayer failed with error code " . $mysql->connect_errno . ": " . $mysql->connect_error . "\n");
+	   $query = "SET @row:=0; 
+		SELECT *, rank FROM
+		(SELECT *, wins/totalGames AS percent, @row:=@row+1 'rank' FROM players ORDER BY percent DESC, wins DESC, totalGames DESC, playerName ASC) 
+		as row_to_return
+		WHERE row_to_return.playerName='" . $playerName . "';";
+	   $mysqli->multi_query($query);
+	   do {
+		$res = $mysqli->store_result();
+		if ($res) {
+			$result=$res;
+		}
+	   } while ($mysqli->more_results() && $mysqli->next_result());
+	   
+	   if ($mysqli->errno) {
+		error_log("requestPlayer failed with error code " . $mysqli->connect_errno . ": " . $mysqli->connect_error . "\n");
+		die("requestPlayer failed with error code " . $mysqli->connect_errno . ": " . $mysqli->connect_error . "\n");
            }
 	   echo "<global>" . PHP_EOL;
-	   while ($row = mysqli_fetch_array($result)) {
+	   while ($row = $result->fetch_array()) {
+		surroundAndPrint($row['rank'], "rank");
 		surroundAndPrint($row['lastLogin'], "lastLogin");
 		surroundAndPrint($row['totalGames'], "totalGames");
 		surroundAndPrint($row['totalTime'], "totalTime");
@@ -38,10 +50,10 @@ if (isset($_REQUEST['requestType'])) {
 	   }
 	   echo "</global>" . PHP_EOL;
 	   $query = "SELECT * FROM games WHERE players LIKE '%{" . $playerName . "}%';";
-	   $result = $mysql->query($query);
-	   if ($mysql->errno) {
-		error_log("requestPlayer failed with error code " . $mysql->connect_errno . ": " . $mysql->connect_error . "\n");
-		die("requestPlayer failed with error code " . $mysql->connect_errno . ": " . $mysql->connect_error . "\n");
+	   $result = $mysqli->query($query);
+	   if ($mysqli->errno) {
+		error_log("requestPlayer failed with error code " . $mysqli->connect_errno . ": " . $mysqli->connect_error . "\n");
+		die("requestPlayer failed with error code " . $mysqli->connect_errno . ": " . $mysqli->connect_error . "\n");
            }
 	   while ($row = mysqli_fetch_array($result)) {
 		echo "<game>" . PHP_EOL;
