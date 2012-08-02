@@ -108,7 +108,7 @@ function updatePlayers() {
 		kills = kills + " . $kills . ",
 		deaths = deaths + " . $deaths .
 		";";
-	$GLOBALS['mysql']->query($query);
+	$GLOBALS['mysqli']->query($query);
 }
 
 function updateGames() {
@@ -122,7 +122,7 @@ function updateGames() {
 		(startTime, totalDuration, winner, totalPlayers, players, sponsors) VALUES 
 		('" . $startTime . "', '" . $totalDuration . "', 1, '" . $winner . "', '" . $totalPlayers . "', '" . $players . "', '" . $sponsors . "')
 		;";
-	$GLOBALS['mysql']->query($query);
+	$GLOBALS['mysqli']->query($query);
 }
 
 function setupDB($mysql) {

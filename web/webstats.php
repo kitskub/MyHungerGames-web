@@ -122,12 +122,12 @@
 					<th>Name</th>
 					<th>Last Login</th>
 					<th>Total Games</th>
-							<th>Total Time</th>
+					<th>Total Time</th>
 					<th>Wins</th>
 					<th>Kills</th>
 					<th>Deaths</th>
-							<th>Kills/Deaths</th>
-							<th>Percent Win</th>
+					<th>Kills/Deaths</th>
+					<th>Percent Win</th>
 					</tr>
 					</thead>
 					<tbody>
