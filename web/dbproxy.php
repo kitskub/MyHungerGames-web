@@ -61,20 +61,24 @@ if (isset($_REQUEST['requestType'])) {
 		surroundAndPrint($row['totalDuration'], "totalDuration");
 		surroundAndPrint($row['winner'], "winner");
 		surroundAndPrint($row['totalPlayers'], "totalPlayers");
-		$matches = array();
-		$regex = "{[a-zA-Z0-9_]+}";
-		preg_match_all($regex, $row['players'], $matches);
+		$matches = getPlayers($row['players']);
 		foreach ($matches[0] as $i => $value) {
 			surroundAndPrint($value, "player");
 		}
-		$matches = array();
-		preg_match_all($regex, $row['sponsors'], $matches);
+		$matches = getPlayers($row['sponsors']);
 		foreach ($matches[0] as $i => $value) {
 			surroundAndPrint($value, "sponsor");
 		}
 		echo "</game>" . PHP_EOL;
 	   }
    }
+}
+
+function getPlayers($all = "") {
+	$matches = array();
+	$regex = "{[a-zA-Z0-9_]+}";
+	preg_match_all($regex, $all, $matches);
+	return $matches;
 }
 
 function surroundAndPrint($text, $node) {
@@ -92,16 +96,15 @@ function newConnection() {
 
 function updatePlayers() {
 	$playerName = $_REQUEST['playerName'];
-	$login = $_REQUEST['lastLogin'];
 	$totalTime = $_REQUEST['totalTime'];
 	$wins = $_REQUEST['wins'];
 	$deaths = $_REQUEST['deaths'];
 	$kills = $_REQUEST['kills'];
 	$query = "INSERT INTO players
 		(playerName, lastLogin, totalGames, totalTime, wins, kills, deaths) VALUES 
-		('" . $playerName . "', '" . $login . "', 1, '" . $totalTime . "', '" . $wins . "', '" . $kills . "', '" . $deaths . "')
+		('" . $playerName . "', now(), 1, '" . $totalTime . "', '" . $wins . "', '" . $kills . "', '" . $deaths . "')
 		ON DUPLICATE KEY UPDATE 
-		lastLogin =  " . $login . ",
+		lastLogin =  now(),
 		totalGames = totalGames + 1,
 		totalTime = ADDTIME(totalTime, '" . $totalTime . "'),
 		wins = wins + " . $wins . ",
@@ -118,9 +121,9 @@ function updateGames() {
 	$players = $_REQUEST['players'];
 	$totalDuration = $_REQUEST['totalDuration'];
 	$sponsors = $_REQUEST['sponsors'];
-	$query = "INSERT INTO players
+	$query = "INSERT INTO games
 		(startTime, totalDuration, winner, totalPlayers, players, sponsors) VALUES 
-		('" . $startTime . "', '" . $totalDuration . "', 1, '" . $winner . "', '" . $totalPlayers . "', '" . $players . "', '" . $sponsors . "')
+		('" . $startTime . "', '" . $totalDuration . "', '" . $winner . "', '" . $totalPlayers . "', '" . $players . "', '" . $sponsors . "')
 		;";
 	$GLOBALS['mysqli']->query($query);
 }

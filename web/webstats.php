@@ -103,8 +103,10 @@
 							echo "<td>" . $row['totalPlayers'] . "</td>\n";
 							echo "<td>" . $row['winner'] . "</td>\n";
 							echo "<td>" . $row['totalDuration'] . "</td>\n";
-							echo "<td>" . $row['players'] . "</td>\n";
-							echo "<td>" . $row['sponsors'] . "</td>\n";
+							$matchesP = getPlayers($row['players']);
+							$matchesS = getPlayers($row['sponsors']);
+							echo "<td>" . implode(",", $matchesP[0]) . "</td>\n";
+							echo "<td>" . implode(",", $matchesS[0]) . "</td>\n";
 							echo "</tr>\n";
 							$count = $count + 1;
 						}
