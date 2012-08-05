@@ -123,7 +123,7 @@ function updateGames() {
 	$sponsors = $_REQUEST['sponsors'];
 	$query = "INSERT INTO games
 		(startTime, totalDuration, winner, totalPlayers, players, sponsors) VALUES 
-		('" . $startTime . "', '" . $totalDuration . "', '" . $winner . "', '" . $totalPlayers . "', '" . $players . "', '" . $sponsors . "')
+		('NOW()', '" . $totalDuration . "', '" . $winner . "', '" . $totalPlayers . "', '" . $players . "', '" . $sponsors . "')
 		;";
 	$GLOBALS['mysqli']->query($query);
 }
@@ -145,7 +145,7 @@ function setupDB($mysql) {
 		die("setupDB failed for players with error code " . $mysql->connect_errno . ": " . $mysql->connect_error . "\n");
 	}
 	$sql = "CREATE TABLE IF NOT EXISTS games (
-		startTime DATETIME NOT NULL,
+		startTime TIMESTAMP NOT NULL,
 		totalDuration TIME,
 		winner VARCHAR(16),
 		totalPlayers SMALLINT,

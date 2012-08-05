@@ -84,7 +84,7 @@
 				<table class="table table-striped dataTable" id="games">
 					<thead>
 					<tr>
-					<th>Start Time</th>
+					<th>End Time</th>
 					<th>Total Players</th>
 					<th>Winner</th>
 					<th>Duration</th>
