@@ -105,8 +105,8 @@
 							echo "<td>" . $row['totalDuration'] . "</td>\n";
 							$matchesP = getPlayers($row['players']);
 							$matchesS = getPlayers($row['sponsors']);
-							echo "<td>" . implode(",", $matchesP[0]) . "</td>\n";
-							echo "<td>" . implode(",", $matchesS[0]) . "</td>\n";
+							echo "<td style=\"word-break:break-all;max-width:500px;\"><p>" . implode(",", $matchesP[0]) . "</p></td>\n";
+							echo "<td style=\"word-break:break-all;max-width:500px;\"><p>" . implode(",", $matchesS[0]) . "</p></td>\n";
 							echo "</tr>\n";
 							$count = $count + 1;
 						}
