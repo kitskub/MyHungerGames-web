@@ -47,7 +47,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="#"><img src="images/logo/logo-thumbnail.png"></img></a>
+				<a class="brand" href="index.html"><img src="images/logo/logo-thumbnail.png"></img></a>
 				<div class="nav-collapse">
 					<ul class="nav">
 						<li><a href="index.html"><i class="icon-home icon-white"></i>Home</a></li>
@@ -76,7 +76,7 @@
 	<div class="tabbable">
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#playersDiv" data-toggle="tab">Players</a></li>
-			<li"><a href="#gamesDiv" data-toggle="tab">Games</a></li>
+			<li><a href="#gamesDiv" data-toggle="tab">Games</a></li>
 		</ul>
 		<div class="tab-content">
 			<div class="tab-pane" id="gamesDiv">
@@ -84,7 +84,7 @@
 				<table class="table table-striped dataTable" id="games">
 					<thead>
 					<tr>
-					<th>End Time</th>
+					<th>Start Time</th>
 					<th>Total Players</th>
 					<th>Winner</th>
 					<th>Duration</th>

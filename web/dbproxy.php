@@ -123,7 +123,7 @@ function updateGames() {
 	$sponsors = $_REQUEST['sponsors'];
 	$query = "INSERT INTO games
 		(startTime, totalDuration, winner, totalPlayers, players, sponsors) VALUES 
-		('NOW()', '" . $totalDuration . "', '" . $winner . "', '" . $totalPlayers . "', '" . $players . "', '" . $sponsors . "')
+		(FROM_UNIXTIME(" . $startTime . "), '" . $totalDuration . "', '" . $winner . "', '" . $totalPlayers . "', '" . $players . "', '" . $sponsors . "')
 		;";
 	$GLOBALS['mysqli']->query($query);
 }
