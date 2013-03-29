@@ -18,6 +18,13 @@ if (isset($_REQUEST['requestType'])) {
 	error_log("updateGames failed with error code " . $mysqli->connect_errno . ": " . $mysqli->connect_error . "\n");
 	die("updateGames failed with error code " . $mysqli->connect_errno . ": " . $mysqli->connect_error . "\n");
    }
+   if ($requestType == 'updateGameDetails') {
+	   updateGameDetails();
+   }
+   if ($mysqli->errno) {
+	error_log("updateGameDetails failed with error code " . $mysqli->connect_errno . ": " . $mysqli->connect_error . "\n");
+	die("updateGameDetails failed with error code " . $mysqli->connect_errno . ": " . $mysqli->connect_error . "\n");
+   }
    if ($requestType == 'requestPlayer') {
 	   echo "<?xml version=\"1.0\"?>" . PHP_EOL;
 	   $playerName = $_REQUEST['playerName'];
@@ -121,6 +128,50 @@ function updateGames() {
 	$players = $_REQUEST['players'];
 	$totalDuration = $_REQUEST['totalDuration'];
 	$sponsors = $_REQUEST['sponsors'];
+	$query = "INSERT INTO games
+		(startTime, totalDuration, winner, totalPlayers, players, sponsors) VALUES 
+		('" . $startTime . "', '" . $totalDuration . "', '" . $winner . "', '" . $totalPlayers . "', '" . $players . "', '" . $sponsors . "')
+		;";
+	$GLOBALS['mysqli']->query($query);
+}
+
+function updateGameDetails() {
+	$startTime = $_REQUEST['startTime'];
+    $name = $_REQUEST['name'];
+	$totalPlayers = $_REQUEST['totalPlayers'];
+	$winner = $_REQUEST['winner'];
+    $totalDuration = $_REQUEST['totalDuration'];
+	$players = $_REQUEST['players'];
+    $sponsors = $_REQUEST['sponsors'];
+    $deaths = $_REQUEST['deaths'];
+
+    $matches = getPlayers($players);
+    foreach ($matches[0] as $i => $playerName) {
+        $totalTime = $_REQUEST['players[' . $playerName . '][time]'];
+        $wins = $_REQUEST['players[' . $playerName . '][wins]'];
+        $deaths = $_REQUEST['players[' . $playerName . '][deaths]'];
+        $kills = $_REQUEST['players[' . $playerName . '][kills]'];
+        $query = "INSERT INTO players
+            (playerName, lastLogin, totalGames, totalTime, wins, kills, deaths) VALUES 
+            ('" . $playerName . "', now(), 1, '" . $totalTime . "', '" . $wins . "', '" . $kills . "', '" . $deaths . "')
+            ON DUPLICATE KEY UPDATE 
+            lastLogin =  now(),
+            totalGames = totalGames + 1,
+            totalTime = ADDTIME(totalTime, '" . $totalTime . "'),
+            wins = wins + " . $wins . ",
+            kills = kills + " . $kills . ",
+            deaths = deaths + " . $deaths .
+            ";";
+        $GLOBALS['mysqli']->query($query);
+    }
+    
+    for ($i=0; $i<=$deaths; $i++) {
+        $time = $_REQUEST['players[' . $i . '][time]'];
+        $player = $_REQUEST['players[' . $i . '][player]'];
+        $killer = $_REQUEST['players[' . $i . '][killer]'];
+        $cause = $_REQUEST['players[' . $i . '][cause]'];
+    }
+    
 	$query = "INSERT INTO games
 		(startTime, totalDuration, winner, totalPlayers, players, sponsors) VALUES 
 		('" . $startTime . "', '" . $totalDuration . "', '" . $winner . "', '" . $totalPlayers . "', '" . $players . "', '" . $sponsors . "')
