@@ -146,23 +146,25 @@ function updateGameDetails() {
     $deaths = $_REQUEST['deaths'];
 
     $matches = getPlayers($players);
-    foreach ($matches[0] as $i => $playerName) {
-        $totalTime = $_REQUEST['players[' . $playerName . '][time]'];
-        $wins = $_REQUEST['players[' . $playerName . '][wins]'];
-        $deaths = $_REQUEST['players[' . $playerName . '][deaths]'];
-        $kills = $_REQUEST['players[' . $playerName . '][kills]'];
-        $query = "INSERT INTO players
-            (playerName, lastLogin, totalGames, totalTime, wins, kills, deaths) VALUES 
-            ('" . $playerName . "', now(), 1, '" . $totalTime . "', '" . $wins . "', '" . $kills . "', '" . $deaths . "')
-            ON DUPLICATE KEY UPDATE 
-            lastLogin =  now(),
-            totalGames = totalGames + 1,
-            totalTime = ADDTIME(totalTime, '" . $totalTime . "'),
-            wins = wins + " . $wins . ",
-            kills = kills + " . $kills . ",
-            deaths = deaths + " . $deaths .
-            ";";
-        $GLOBALS['mysqli']->query($query);
+    if (count($matches) > 1) {
+        foreach ($matches[0] as $i => $playerName) {
+            $totalTime = $_REQUEST['players[' . $playerName . '][time]'];
+            $wins = $_REQUEST['players[' . $playerName . '][wins]'];
+            $deaths = $_REQUEST['players[' . $playerName . '][deaths]'];
+            $kills = $_REQUEST['players[' . $playerName . '][kills]'];
+            $query = "INSERT INTO players
+                (playerName, lastLogin, totalGames, totalTime, wins, kills, deaths) VALUES 
+                ('" . $playerName . "', now(), 1, '" . $totalTime . "', '" . $wins . "', '" . $kills . "', '" . $deaths . "')
+                ON DUPLICATE KEY UPDATE 
+                lastLogin =  now(),
+                totalGames = totalGames + 1,
+                totalTime = ADDTIME(totalTime, '" . $totalTime . "'),
+                wins = wins + " . $wins . ",
+                kills = kills + " . $kills . ",
+                deaths = deaths + " . $deaths .
+                ";";
+            $GLOBALS['mysqli']->query($query);
+        }
     }
     
     for ($i=0; $i<=$deaths; $i++) {
