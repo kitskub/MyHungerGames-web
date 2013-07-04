@@ -1,5 +1,9 @@
 <?php
 require('config.php');
+
+if($_REQUEST['key'] != 'XXXXXXXXXXXXXXXX' | $_SERVER['REMOTE_ADDR'] != '0.0.0.0')
+	exit;
+   	
 $mysqli = newConnection();
 setupDB($mysqli);
 if (isset($_REQUEST['requestType'])) {
